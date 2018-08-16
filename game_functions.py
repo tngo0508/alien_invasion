@@ -5,6 +5,14 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 
+
+def check_high_score(stats, sb):
+    """Check to see if there is a new high score."""
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
+
+
 def get_number_rows(ai_settings, ship_height, alien_height):
     """Determine the number of rows of aliens that fit on the screen."""
     available_space_y = (ai_settings.screen_height -
@@ -55,6 +63,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship,
         for alien in collisions.values():
             stats.score += ai_settings.alien_points * len(alien)
             sb.prep_score()
+        check_high_score(stats, sb)
 
     if not aliens:
         # Destroy existing bullets, speed up game, and create new fleet.
@@ -78,7 +87,8 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
-    """Fire a bullet if limit not reached yet.""" # Create a new bullet and add it to the bullets group.
+    """Fire a bullet if limit not reached yet."""
+    # Create a new bullet and add it to the bullets group.
     if len(bullets) < ai_settings.bullets_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
