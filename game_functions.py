@@ -52,8 +52,9 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship,
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 
     if collisions:
-        stats.score += ai_settings.alien_points
-        sb.prep_score()
+        for alien in collisions.values():
+            stats.score += ai_settings.alien_points * len(alien)
+            sb.prep_score()
 
     if not aliens:
         # Destroy existing bullets, speed up game, and create new fleet.
@@ -77,8 +78,7 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
 
 def fire_bullet(ai_settings, screen, ship, bullets):
-    """Fire a bullet if limit not reached yet."""
-    # Create a new bullet and add it to the bullets group.
+    """Fire a bullet if limit not reached yet.""" # Create a new bullet and add it to the bullets group.
     if len(bullets) < ai_settings.bullets_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
