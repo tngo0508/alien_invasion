@@ -123,7 +123,8 @@ def change_fleet_direction(ai_settings, aliens):
     ai_settings.fleet_direction *= -1
 
 
-def update_screen(ai_settings, screen, ship, alien, bullets):
+def update_screen(ai_settings, screen, stats, ship, alien, bullets,
+                  play_button):
     """Update images on the screen and flip to the new screen."""
 
     # Redraw the screen during each pass through the loop
@@ -134,6 +135,10 @@ def update_screen(ai_settings, screen, ship, alien, bullets):
         bullet.draw_bullet()
     ship.blitme()
     alien.draw(screen)
+
+    # Draw the Play button if the game is inactive.
+    if not stats.game_active:
+        play_button.draw_button()
 
     # make the most recently drawn screen visible
     pygame.display.flip()
