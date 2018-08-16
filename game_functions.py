@@ -153,7 +153,7 @@ def change_fleet_direction(ai_settings, aliens):
     ai_settings.fleet_direction *= -1
 
 
-def update_screen(ai_settings, screen, stats, ship, alien, bullets,
+def update_screen(ai_settings, screen, stats, sb, ship, alien, bullets,
                   play_button):
     """Update images on the screen and flip to the new screen."""
 
@@ -165,6 +165,9 @@ def update_screen(ai_settings, screen, stats, ship, alien, bullets,
         bullet.draw_bullet()
     ship.blitme()
     alien.draw(screen)
+
+    # Draw the score information.
+    sb.show_score()
 
     # Draw the Play button if the game is inactive.
     if not stats.game_active:
